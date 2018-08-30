@@ -1,14 +1,4 @@
 {
-  "expo": {
-    "name": "RGB-CCT Controller",
-    "version": "1.0.0",
-    "slug": "rgb-cct-controller",
-    "sdkVersion": "27.0.0",
-    "ios": {
-      "bundleIdentifier": "com.vilnius-technology.smart-home.rgb-cct-controller"
-    },
-    "android": {
-      "package": "com.vilniustechnology.smarthome.rgbcctcontroller"
-    }
-   }
+  "name": "LedRemote",
+  "displayName": "LedRemote"
 }

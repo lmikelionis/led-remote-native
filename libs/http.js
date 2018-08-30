@@ -1,5 +1,4 @@
 import axios from 'axios';
-import $ from "jquery";
 import queryString from 'query-string';
 
 export const Http = class Http {

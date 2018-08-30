@@ -1,4 +1,4 @@
-package com.projectname2;
+package com.ledremote;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "projectname2";
+        return "ledRemote";
     }
 }
