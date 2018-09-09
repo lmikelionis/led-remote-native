@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import { Alert } from 'react-native';
 import { View, Switch, ScrollView, Text } from 'react-native';
-import Slider from "react-native-slider";
 import { ButtonGroup, Header } from 'react-native-elements';
 
-
 import { Http } from './libs/http.js';
+import ColorSlider from './components/ColorSlider.js';
 
 export default class HomeContainer extends Component {
     constructor() {
@@ -16,20 +16,27 @@ export default class HomeContainer extends Component {
         this.state = {
             ledState: false,
             ledMode: 0,
-
-            coldWhiteValue: 1,
-            warmWhiteValue: 2,
-            redValue: 3,
-            greenValue: 4,
-            blueValue: 5,
             colours : {
-                white: 0,
-                yellow: 0,
-                red: 0,
-                green: 0,
-                blue: 0,
+                white: {
+                    value: 0,
+                },
+                yellow: {
+                    value: 0,
+                },
+                red: {
+                    value: 0,
+                },
+                green: {
+                    value: 0,
+                },
+                blue: {
+                    value: 0,
+                },
+                light_lvl: 0,
             },
-        }
+        };
+
+        this.isConErr = false;
 
         this.updateMode = this.updateMode.bind(this);
     }
@@ -37,22 +44,42 @@ export default class HomeContainer extends Component {
     componentDidMount = () => {
         const network = new Http();
         network.setCallback('updateAll', this);
+        network.setCallbackError('handleError', this);
 
         this.container.network = network;
+        this.container.network.setState(this);
 
-        network.setState(this);
+        this.heartbeat();
+        setInterval(this.heartbeat, 2500);
+    };
 
+    heartbeat = () => {
         let data = {
-          "mode": "3",
+            "mode": "3",
         };
-        network.performRequest(data);
+        this.container.network.performRequest(data);
+    };
 
-        console.log('componentDidMount');
+    handleError = (data) => {
+        if (this.isConErr === false) {
+            Alert.alert(
+                'Problem Problem',
+                'Nepasijung !!!',
+                [{ text: 'Perbandom', onPress: () => this.onAlertDismiss}]
+            );
+            this.isConErr = true;
+        }
+    };
 
-        // this.interval = setInterval(this.updateController, 25000);
-    }
+    onAlertDismiss = () => {
+        this.isConErr = false;
+    };
 
     updateAll = (data) => {
+        console.log('will set vals: ', data);
+
+        this.state.light_lvl = data.light_lvl;
+
         this.setSlider('white', parseInt(data.coldWhite.value));
         this.setSlider('yellow', parseInt(data.warmWhite.value));
 
@@ -62,64 +89,59 @@ export default class HomeContainer extends Component {
 
         this.setPowerState(!!data.ledState);
         this.updateMode(parseInt(data.ledMode));
-
-        console.log('ALL DATA UPDATED WITH VALUES');
-        console.log(this.state);
-    }
+    };
 
     toggleSwitch = (value) => {
         this.setPowerState(value);
         this.container.network.setState(this);
         this.container.network.getStateAndPerformRequest();
-    }
+    };
 
     setPowerState = (value) => {
-        if (value === 1) {
-            value = true;
-        }
-
-        if (value === 0) {
-            value = false;
-        }
+        value = new Boolean(value).valueOf();
 
         this.state.ledState = value;
         this.setState({ ledState: value });
-    }
+    };
 
     updateMode = (value) => {
         this.setState({ledMode: value})
-    }
+    };
 
-    updateSlider = (stuff) => {
-        this.setSlider(stuff.color, stuff.value);
+    onDragStop = (input) => {
+        this.setSlider(input.color, input.value);
+        console.log('onDragStop');
         this.container.network.getStateAndPerformRequest();
-    }
+    };
+
+    onDrag = () => {
+        //
+    };
 
     setSlider = (color, value) => {
-        var colours = {...this.state.colours}
-        colours[color] = value;
+        let colours = {...this.state.colours};
+        colours[color].value = value;
 
-        console.log(color, value, colours);
-
-        this.state.colours[color] = value;
         this.setState({ colours });
-    }
+    };
 
     render() {
 
-        const buttons = ['AUTO', 'MANUAL', 'TIMED']
-        const { selectedIndex } = this.state
+        const buttons = ['AUTO', 'MANUAL', 'TIMED'];
+        const { selectedIndex } = this.state;
 
         return (
-           <View>
+           <View style={{backgroundColor: 'powderblue', marginBottom: 50}}>
+
                <Header
                    leftComponent={{ icon: 'menu', color: '#fff' }}
                    centerComponent={{ text: 'RGB CCT controller', style: { color: '#fff' } }}
                    rightComponent={{ icon: 'home', color: '#fff' }}
                />
+
                <View style={{paddingTop: 30, height: 100, backgroundColor: 'powderblue', alignItems: 'center'}}>
-                   <View style={{flex: 1, flexDirection: 'row'}}>
-                       <View>
+                   <View style={{flex: 2, flexDirection: 'row'}}>
+                       <View style={{flex: 1, marginLeft: 30}}>
                             <Switch
                                 style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
                                 tintColor="#f44336"
@@ -129,94 +151,76 @@ export default class HomeContainer extends Component {
                                 value = {this.state.ledState}
                             />
                         </View>
-                        <View style={{marginLeft: 225, marginTop: -20}}>
-                            <Text style={{fontSize: 45}}>0</Text>
+                       <View style={{flex: 2, marginTop: -10}}>
+                            <Text style={{fontSize: 45}}>{this.state.light_lvl}</Text>
                         </View>
                     </View>
                </View>
-                <View style={{paddingTop: 5, height: 90, backgroundColor: 'skyblue'}}>
+
+               <View style={{paddingTop: 5, height: 90, backgroundColor: 'skyblue'}}>
                     <ButtonGroup
                        onPress={this.updateMode}
                        selectedIndex={this.state.ledMode}
                        buttons={buttons}
                        containerStyle={{height: 70}} />
-                </View>
+               </View>
 
-                <ScrollView style={{backgroundColor: 'powderblue', paddingBottom: 10 }}>
-
+               <ScrollView style={{backgroundColor: 'powderblue', paddingBottom: 10, marginTop: 30 }}>
                     <View>
-                        <View style={{alignItems: 'stretch', height: 50, marginBottom: 15, paddingLeft: 10, paddingRight: 10, justifyContent: 'center'}}>
-                            <Slider
-                                style={{marginTop: 15 }}
-                                thumbStyle={{ width: 30, height: 30, borderRadius: 30 / 2 }}
-                                value={this.state.colours.white}
-                                thumbTintColor='white'
-                                minimumTrackTintColor='white'
-                                step={1}
-                                minimumValue={0}
-                                maximumValue={255}
-                                onSlidingComplete={(value) => this.updateSlider({color: 'white', value})}/>
-                            <Text>Cold white: {this.state.colours.white}</Text>
-                       </View>
+                        <ColorSlider
+                            value={this.state.colours['white'].value}
+                            colorVisible='white'
+                            colorAssigned='white'
+                            labelText='White: '
+                            bubbleSize={60}
+                            onDrag={this.onDrag}
+                            onDragStop={this.onDragStop}
+                        />
 
-                        <View style={{alignItems: 'stretch', height: 50, marginBottom: 15, paddingLeft: 10, paddingRight: 10, justifyContent: 'center'}}>
-                            <Slider
-                                style={{marginTop: 15 }}
-                                thumbStyle={{ width: 30, height: 30, borderRadius: 30 / 2 }}
-                                value={this.state.colours.yellow}
-                                thumbTintColor='yellow'
-                                minimumTrackTintColor='yellow'
-                                step={1}
-                                minimumValue={0}
-                                maximumValue={255}
-                                onSlidingComplete={(value) => this.updateSlider({color: 'yellow', value})} />
-                            <Text>Warm white: {this.state.colours.yellow}</Text>
-                        </View>
+                        <ColorSlider
+                            value={this.state.colours['yellow'].value}
+                            colorVisible='yellow'
+                            colorAssigned='yellow'
+                            labelText='yellow: '
+                            bubbleSize={60}
+                            onDrag={this.onDrag}
+                            onDragStop={this.onDragStop}
+                        />
 
-                        <View style={{alignItems: 'stretch', height: 50, marginBottom: 15, paddingLeft: 10, paddingRight: 10, justifyContent: 'center'}}>
-                            <Slider
-                                style={{marginTop: 15 }}
-                                thumbStyle={{ width: 30, height: 30, borderRadius: 30 / 2 }}
-                                value={this.state.colours.red}
-                                thumbTintColor='#B00F1D'
-                                minimumTrackTintColor='#B00F1D'
-                                step={1}
-                                minimumValue={0}
-                                maximumValue={255}
-                                onSlidingComplete={(value) => this.updateSlider({color: 'red', value})} />
-                            <Text>Red: {this.state.colours.red}</Text>
-                        </View>
+                        <ColorSlider
+                            value={this.state.colours['red'].value}
+                            colorVisible='red'
+                            colorAssigned='red'
+                            labelText='RED: '
+                            bubbleSize={60}
+                            onDrag={this.onDrag}
+                            onDragStop={this.onDragStop}
+                        />
 
-                        <View style={{alignItems: 'stretch', height: 50, marginBottom: 15, paddingLeft: 10, paddingRight: 10, justifyContent: 'center'}}>
-                            <Slider
-                                style={{marginTop: 15 }}
-                                thumbStyle={{ width: 30, height: 30, borderRadius: 30 / 2 }}
-                                value={this.state.colours.green}
-                                thumbTintColor='green'
-                                minimumTrackTintColor='green'
-                                step={1}
-                                minimumValue={0}
-                                maximumValue={255}
-                                onSlidingComplete={(value) => this.updateSlider({color: 'green', value})} />
-                            <Text>Green: {this.state.colours.green}</Text>
-                        </View>
+                        <ColorSlider
+                            value={this.state.colours['green'].value}
+                            colorVisible='green'
+                            colorAssigned='green'
+                            labelText='green: '
+                            bubbleSize={60}
+                            onDrag={this.onDrag}
+                            onDragStop={this.onDragStop}
+                        />
 
-                        <View style={{alignItems: 'stretch', height: 50, marginBottom: 15, paddingLeft: 10, paddingRight: 10, justifyContent: 'center'}}>
-                            <Slider
-                                style={{marginTop: 15 }}
-                                thumbStyle={{ width: 30, height: 30, borderRadius: 30 / 2 }}
-                                value={this.state.colours.blue}
-                                thumbTintColor='blue'
-                                minimumTrackTintColor='blue'
-                                step={1}
-                                minimumValue={0}
-                                maximumValue={255}
-                                onSlidingComplete={(value) => this.updateSlider({color: 'blue', value})}/>
-                            <Text>Blue: {this.state.colours.blue}</Text>
-                        </View>
-
+                        <ColorSlider
+                            value={this.state.colours['blue'].value}
+                            colorVisible='blue'
+                            colorAssigned='blue'
+                            labelText='blue: '
+                            bubbleSize={60}
+                            onDrag={this.onDrag}
+                            onDragStop={this.onDragStop}
+                        />
                     </View>
                 </ScrollView>
+
+               <View style={{backgroundColor: 'powderblue', height: 190}}>
+               </View>
             </View>
         );
     }
