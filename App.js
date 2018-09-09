@@ -102,6 +102,19 @@ export default class HomeContainer extends Component {
 
         this.state.ledState = value;
         this.setState({ ledState: value });
+
+        this.setSlidersState(value);
+    };
+
+    setSlidersState = (value) => {
+        let colours = {...this.state.colours};
+        colours['white'].state = !value;
+        colours['yellow'].state = !value;
+        colours['red'].state = !value;
+        colours['green'].state = !value;
+        colours['blue'].state = !value;
+
+        this.setState({ colours });
     };
 
     updateMode = (value) => {
@@ -169,6 +182,7 @@ export default class HomeContainer extends Component {
                     <View>
                         <ColorSlider
                             value={this.state.colours['white'].value}
+                            disabled={this.state.colours['white'].state}
                             colorVisible='white'
                             colorAssigned='white'
                             labelText='White: '
@@ -179,6 +193,7 @@ export default class HomeContainer extends Component {
 
                         <ColorSlider
                             value={this.state.colours['yellow'].value}
+                            disabled={this.state.colours['yellow'].state}
                             colorVisible='yellow'
                             colorAssigned='yellow'
                             labelText='yellow: '
@@ -189,6 +204,7 @@ export default class HomeContainer extends Component {
 
                         <ColorSlider
                             value={this.state.colours['red'].value}
+                            disabled={this.state.colours['red'].state}
                             colorVisible='red'
                             colorAssigned='red'
                             labelText='RED: '
@@ -199,6 +215,7 @@ export default class HomeContainer extends Component {
 
                         <ColorSlider
                             value={this.state.colours['green'].value}
+                            disabled={this.state.colours['green'].state}
                             colorVisible='green'
                             colorAssigned='green'
                             labelText='green: '
@@ -209,6 +226,7 @@ export default class HomeContainer extends Component {
 
                         <ColorSlider
                             value={this.state.colours['blue'].value}
+                            disabled={this.state.colours['blue'].state}
                             colorVisible='blue'
                             colorAssigned='blue'
                             labelText='blue: '
