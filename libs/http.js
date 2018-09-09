@@ -11,7 +11,7 @@ export const Http = class Http {
       console.log(request_string);
 
       const httpClient = axios.create();
-      httpClient.defaults.timeout = 2500;
+      httpClient.defaults.timeout = 2000;
 
       httpClient.get(request_string)
           .then(
@@ -32,7 +32,6 @@ export const Http = class Http {
   };
 
   dataToString = (data) => {
-      // console.log('dataToString', data);
       return queryString.stringify(
           data,
           {sort: false},
@@ -49,14 +48,12 @@ export const Http = class Http {
           "green": this.scope.state.colours.green.value,
           "blue": this.scope.state.colours.blue.value,
       };
-      // console.log('getAllData data: ', data);
 
       return data;
   };
 
   getStateAndPerformRequest = () => {
       let data = this.getAllData();
-      // console.log('getStateAndPerformRequest data:', data);
       this.performRequest(data);
   };
 

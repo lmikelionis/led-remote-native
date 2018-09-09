@@ -58,6 +58,7 @@ export default class HomeContainer extends Component {
             "mode": "3",
         };
         this.container.network.performRequest(data);
+        console.log('heartbeat');
     };
 
     handleError = (data) => {
@@ -73,6 +74,7 @@ export default class HomeContainer extends Component {
 
     onAlertDismiss = () => {
         this.isConErr = false;
+        this.heartbeat();
     };
 
     updateAll = (data) => {
