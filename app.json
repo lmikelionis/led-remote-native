@@ -1,4 +1,26 @@
 {
-  "name": "ledRemote",
-  "displayName": "ledRemote"
+  "expo": {
+    "name": "ledRemote",
+    "description": "ledRemote",
+    "privacy": "unlisted",
+    "sdkVersion": "30.0.0",
+    "platforms": ["ios", "android"],
+    "version": "0.9.70",
+    "orientation": "portrait",
+    "ios": {
+      "bundleIdentifier": "com.lukas.ledremote",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.lukas.ledremote"
+    },
+    "splash": {
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"]
+  }
 }

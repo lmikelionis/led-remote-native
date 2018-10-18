@@ -5,7 +5,7 @@ import { ButtonGroup, Header } from 'react-native-elements';
 
 import { Http } from './libs/http.js';
 import ColorSlider from './components/ColorSlider.js';
-
+//console.disableYellowBox = true;
 export default class HomeContainer extends Component {
     constructor() {
         super();
@@ -19,18 +19,23 @@ export default class HomeContainer extends Component {
             colours : {
                 white: {
                     value: 0,
+                    state: false, 
                 },
                 yellow: {
                     value: 0,
+                    state: false,
                 },
                 red: {
                     value: 0,
+                    state: false,
                 },
                 green: {
                     value: 0,
+                    state: false,
                 },
                 blue: {
                     value: 0,
+                    state: false,
                 },
                 light_lvl: 0,
             },
