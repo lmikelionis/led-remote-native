@@ -54,8 +54,8 @@ export default class HomeContainer extends Component {
         this.container.network = network;
         this.container.network.setState(this);
 
-        this.heartbeat();
-        setInterval(this.heartbeat, 2500);
+        // this.heartbeat();
+        // setInterval(this.heartbeat, 2500);
     };
 
     heartbeat = () => {
@@ -99,7 +99,14 @@ export default class HomeContainer extends Component {
     };
 
     toggleSwitch = (value) => {
-        this.setPowerState(value);
+        if (this.state.ledState === false && value === true) {
+            this.setPowerState(true);
+            console.log('SWITCH ON');
+        } else {
+            this.setPowerState(false);
+        }
+        console.log('SWITCH OFF');
+
         this.container.network.setState(this);
         this.container.network.getStateAndPerformRequest();
     };
@@ -120,6 +127,9 @@ export default class HomeContainer extends Component {
         colours['red'].state = !value;
         colours['green'].state = !value;
         colours['blue'].state = !value;
+
+
+        console.log('WILL SET STATE: ', !value);
 
         this.setState({ colours });
     };

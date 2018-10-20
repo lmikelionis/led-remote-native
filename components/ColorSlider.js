@@ -9,10 +9,12 @@ class ColorSlider extends Component {
 
         this.state = {};
         this.state.colorVisible = this.props.colorVisible;
+        this.state.colorVisibleArchive = this.props.colorVisible;
         this.state.colorAssigned = this.props.colorAssigned;
         this.state.disabled = this.props.disabled;
         this.state.value = this.props.value;
         this.state.label = this.props.value;
+        this.state.colorVisible = 'grey';
     };
 
     componentWillReceiveProps(nextProps) {
@@ -22,7 +24,7 @@ class ColorSlider extends Component {
             if(this.props.disabled === true) {
                 this.state.colorVisible = 'grey';
             } else {
-                this.state.colorVisible = this.props.colorVisible;
+                this.state.colorVisible = this.state.colorVisibleArchive;
             }
 
             // Update lbl
@@ -78,7 +80,7 @@ ColorSlider.defaultProps = {
     value: 0,
     bubbleSize: 40,
     labelText: 'Stuff',
-    disabled: false,
+    disabled: true,
 };
 
 export default ColorSlider;
