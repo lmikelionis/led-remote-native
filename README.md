@@ -2,4 +2,4 @@ led-remote-native
 
 ```npm i```
 
-```expo start --tunnel```
+```expo start```

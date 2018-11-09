@@ -58,7 +58,7 @@ export default class HomeScreen extends Component {
         // this._interval = setInterval(this.heartbeat, 7000);
     };
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         clearInterval(this._interval);
     };
 
@@ -104,30 +104,20 @@ export default class HomeScreen extends Component {
     };
 
     updateMode = (value) => {
-
-        // Alert.alert(
-        //     'updateMode 1',
-        //     value,
-        //     [
-        //       {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        //       {text: 'OK', onPress: () => console.log('OK Pressed')},
-        //     ],
-        //     { cancelable: false }
-        // );
+        // console.log('----------- WILL UPDATE MODE ------------');
+        // console.log(value);
+        // console.log('----------- ------ ------ --- -----------');
 
         this.setState({ledMode: value});
+        this.state.ledMode = value;
 
-        // Alert.alert(
-        //     'updateMode 2',
-        //     JSON.stringify(this.state),
-        //     [
-        //       {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        //       {text: 'OK', onPress: () => console.log('OK Pressed')},
-        //     ],
-        //     { cancelable: false }
-        // );
+        // console.log(this.state);
 
         this.container.network.getStateAndPerformRequest();
+        //
+        //
+        // console.log('----------- STATE AFTER UPDATE ------------');
+        // console.log(this.state);
     };
 
     toggleSwitch = (value) => {
