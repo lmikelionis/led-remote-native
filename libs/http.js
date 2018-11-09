@@ -42,6 +42,7 @@ export const Http = class Http {
       let data = {
           "state": Number(this.scope.state.ledState),
           "mode": Number(this.scope.state.ledMode),
+          "ledMode": this.scope.state.ledMode,
           "coldWhite": this.scope.state.colours.white.value,
           "warmWhite": this.scope.state.colours.yellow.value,
           "red": this.scope.state.colours.red.value,
