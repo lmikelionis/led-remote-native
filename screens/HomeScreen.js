@@ -55,7 +55,7 @@ export default class HomeScreen extends Component {
         this.container.network.setState(this);
 
         this.heartbeat();
-        // this._interval = setInterval(this.heartbeat, 7000);
+        this._interval = setInterval(this.heartbeat, 5000);
     };
 
     componentWillUnmount = () => {
@@ -64,7 +64,7 @@ export default class HomeScreen extends Component {
 
     heartbeat = () => {
         let data = {
-            "mode": "3",
+            // "mode": "3",
             "heartbeat": true,
         };
         this.container.network.performRequest(data);
@@ -104,20 +104,9 @@ export default class HomeScreen extends Component {
     };
 
     updateMode = (value) => {
-        // console.log('----------- WILL UPDATE MODE ------------');
-        // console.log(value);
-        // console.log('----------- ------ ------ --- -----------');
-
         this.setState({ledMode: value});
         this.state.ledMode = value;
-
-        // console.log(this.state);
-
         this.container.network.getStateAndPerformRequest();
-        //
-        //
-        // console.log('----------- STATE AFTER UPDATE ------------');
-        // console.log(this.state);
     };
 
     toggleSwitch = (value) => {
@@ -174,7 +163,7 @@ export default class HomeScreen extends Component {
         const buttons = [
             'AUTO', 
             'MANUAL', 
-            'TIMED',
+            // 'TIMED',
         ];
         const { selectedIndex } = this.state;
 
