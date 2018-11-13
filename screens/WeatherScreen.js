@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
-import {Text, Alert, View} from 'react-native';
+import {Text, Alert, View, TouchableOpacity} from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 
 import {Http} from "../libs/http";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 export default class WeatherScreen extends Component {
+
+    state = {
+        isDateTimePickerVisible: false,
+        is24Hour: true,
+    };
 
     constructor() {
         super();
 
         this.container = {};
         this.container.network = {};
-
 
         this.state = {};
         this.state.humidity = 0;
@@ -68,8 +72,10 @@ export default class WeatherScreen extends Component {
 
     render() {
         return(
-            <SafeAreaView style={{backgroundColor: 'powderblue', marginTop: 50, flex: 1}} >
-                <View>
+
+            <SafeAreaView style={{backgroundColor: 'powderblue', marginBottom: 50, height: 900}}>
+
+                <View style={{padding: 15}}>
                     <View style={{flexDirection:'row', flexWrap:'wrap'}}>
                         <View>
                             <Text style={{fontSize: 25}}>Temperature: </Text>
@@ -79,7 +85,7 @@ export default class WeatherScreen extends Component {
                         </View>
                     </View>
 
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                    <View style={{flexDirection:'row', flexWrap:'wrap', marginTop: 30}}>
                         <View>
                             <Text style={{fontSize: 25}}>Humidity: </Text>
                         </View>
@@ -88,8 +94,9 @@ export default class WeatherScreen extends Component {
                         </View>
                     </View>
                 </View>
-                <View style={{backgroundColor: 'powderblue', height: 800}}/>
+
             </SafeAreaView>
+
         );
     }
 }

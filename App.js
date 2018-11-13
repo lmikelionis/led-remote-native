@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import HomeScreen from './screens/HomeScreen.js';
 import WeatherScreen from './screens/WeatherScreen.js';
+import SettingsScreen from './screens/SettingsScreen.js';
 import { Ionicons } from '@expo/vector-icons';
 
 //console.disableYellowBox = true;
@@ -26,12 +27,21 @@ export default createBottomTabNavigator({
             )
         }
     },
-    Weather: {
+    Climate: {
         screen: WeatherScreen,
         navigationOptions: {
             tabBarLabel: 'Clima',
             tabBarIcon: () => (
-                <Ionicons name="ios-rainy" size={24} color="black" />
+                <Ionicons name="ios-thermometer" size={24} color="black" />
+            )
+        }
+    },
+    Settings: {
+        screen: SettingsScreen,
+        navigationOptions: {
+            tabBarLabel: 'Settings',
+            tabBarIcon: () => (
+                <Ionicons name="ios-switch" size={24} color="black" />
             )
         }
     },
