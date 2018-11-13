@@ -1,20 +1,45 @@
 import React, { Component } from 'react'
-import { createStackNavigator } from 'react-navigation';
 
 import HomeScreen from './screens/HomeScreen.js';
 import WeatherScreen from './screens/WeatherScreen.js';
+import { Ionicons } from '@expo/vector-icons';
 
 //console.disableYellowBox = true;
 
-export default class App extends Component {
+import { createBottomTabNavigator, SafeAreaView } from 'react-navigation';
+
+export class App extends Component {
     render() {
         return(
-            <AppStackNavigator/>
+            <SafeAreaView>
+                <Text>
+                    This is top text.
+                </Text>
+                <Text>
+                    This is bottom text.
+                </Text>
+            </SafeAreaView>
         );
     }
 }
 
-const AppStackNavigator = createStackNavigator({
-    Home: { screen: HomeScreen },
-    Weather: { screen: WeatherScreen },
+export default createBottomTabNavigator({
+    Home: {
+        screen: HomeScreen,
+        navigationOptions: {
+            tabBarLabel: 'LED',
+            tabBarIcon: () => (
+                <Ionicons name="ios-sunny" size={24} color="black" />
+            )
+        }
+    },
+    Weather: {
+        screen: WeatherScreen,
+        navigationOptions: {
+            tabBarLabel: 'Clima',
+            tabBarIcon: () => (
+                <Ionicons name="ios-rainy" size={24} color="black" />
+            )
+        }
+    },
 });

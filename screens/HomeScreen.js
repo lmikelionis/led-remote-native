@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
-import { View, Switch, Button, ScrollView, Text } from 'react-native';
+import { View, Switch, ScrollView, Text } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 import { ButtonGroup} from 'react-native-elements';
 
 import { Http } from '../libs/http.js';
@@ -164,7 +165,7 @@ export default class HomeScreen extends Component {
         const { selectedIndex } = this.state;
 
         return (
-           <View style={{backgroundColor: 'powderblue', marginBottom: 50}}>
+           <SafeAreaView style={{backgroundColor: 'powderblue', marginBottom: 50}}>
 
                <View style={{paddingTop: 30, height: 100, backgroundColor: 'powderblue', alignItems: 'center'}}>
                    <View style={{flex: 2, flexDirection: 'row'}}>
@@ -210,7 +211,7 @@ export default class HomeScreen extends Component {
                             disabled={this.state.colours['yellow'].state}
                             colorVisible='yellow'
                             colorAssigned='yellow'
-                            labelText='yellow: '
+                            labelText='Warm White: '
                             bubbleSize={60}
                             onDrag={this.onDrag}
                             onDragStop={this.onDragStop}
@@ -221,7 +222,7 @@ export default class HomeScreen extends Component {
                             disabled={this.state.colours['red'].state}
                             colorVisible='red'
                             colorAssigned='red'
-                            labelText='RED: '
+                            labelText='Red: '
                             bubbleSize={60}
                             onDrag={this.onDrag}
                             onDragStop={this.onDragStop}
@@ -232,7 +233,7 @@ export default class HomeScreen extends Component {
                             disabled={this.state.colours['green'].state}
                             colorVisible='green'
                             colorAssigned='green'
-                            labelText='green: '
+                            labelText='Green: '
                             bubbleSize={60}
                             onDrag={this.onDrag}
                             onDragStop={this.onDragStop}
@@ -243,7 +244,7 @@ export default class HomeScreen extends Component {
                             disabled={this.state.colours['blue'].state}
                             colorVisible='blue'
                             colorAssigned='blue'
-                            labelText='blue: '
+                            labelText='Blue: '
                             bubbleSize={60}
                             onDrag={this.onDrag}
                             onDragStop={this.onDragStop}
@@ -251,10 +252,10 @@ export default class HomeScreen extends Component {
                     </View>
                 </ScrollView>
 
-               <Button title="Atmo" onPress={() => this.props.navigation.navigate('Weather')}></Button>
+               {/*<Button title="Atmo" onPress={() => this.props.navigation.navigate('Weather')}></Button>*/}
 
                <View style={{backgroundColor: 'powderblue', height: 210}}/>
-            </View>
+            </SafeAreaView>
         );
     }
 }

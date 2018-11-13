@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import {View, Text, Alert} from 'react-native';
+import {Text, Alert, View} from 'react-native';
+import { SafeAreaView } from 'react-navigation';
+
 import {Http} from "../libs/http";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default class WeatherScreen extends Component {
 
@@ -65,10 +68,28 @@ export default class WeatherScreen extends Component {
 
     render() {
         return(
-            <View style={{backgroundColor: 'powderblue', marginTop: 50}}>
-                <Text>Temperature</Text> <Text>{this.state.temperature}</Text>
-                <Text>Humidity</Text>    <Text>{this.state.humidity}</Text>
-            </View>
+            <SafeAreaView style={{backgroundColor: 'powderblue', marginTop: 50, flex: 1}} >
+                <View>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <View>
+                            <Text style={{fontSize: 25}}>Temperature: </Text>
+                        </View>
+                        <View>
+                            <Text style={{fontSize: 25}}>{this.state.temperature}</Text>
+                        </View>
+                    </View>
+
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        <View>
+                            <Text style={{fontSize: 25}}>Humidity: </Text>
+                        </View>
+                        <View>
+                            <Text style={{fontSize: 25}}>{this.state.humidity}</Text>
+                        </View>
+                    </View>
+                </View>
+                <View style={{backgroundColor: 'powderblue', height: 800}}/>
+            </SafeAreaView>
         );
     }
 }
