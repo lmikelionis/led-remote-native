@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Alert } from 'react-native';
 import { View, Switch, Button, ScrollView, Text } from 'react-native';
-import { ButtonGroup, Header } from 'react-native-elements';
+import { ButtonGroup} from 'react-native-elements';
 
 import { Http } from '../libs/http.js';
 import ColorSlider from '../components/ColorSlider.js';
@@ -64,10 +64,9 @@ export default class HomeScreen extends Component {
 
     heartbeat = () => {
         let data = {
-            // "mode": "3",
             "heartbeat": true,
         };
-        this.container.network.performRequest(data);
+        this.container.network.performRequest('http://192.168.1.47:8080/?', data);
         console.log('heartbeat');
     };
 
@@ -138,9 +137,6 @@ export default class HomeScreen extends Component {
         colours['red'].state = !value;
         colours['green'].state = !value;
         colours['blue'].state = !value;
-
-
-        console.log('WILL SET STATE: ', !value);
 
         this.setState({ colours });
     };

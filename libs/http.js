@@ -3,9 +3,8 @@ import queryString from 'query-string';
 
 export const Http = class Http {
 
-  performRequest = (data) => {
+  performRequest = (url, data) => {
       let getString = this.dataToString(data);
-      let url = 'http://192.168.1.47:8080/?';
       let request_string = url + getString;
 
       console.log(request_string);
@@ -39,7 +38,7 @@ export const Http = class Http {
   };
 
   getAllData() {
-      let data = {
+      return {
           "state": Number(this.scope.state.ledState),
           "mode": Number(this.scope.state.ledMode),
           "ledMode": this.scope.state.ledMode,
@@ -49,8 +48,6 @@ export const Http = class Http {
           "green": this.scope.state.colours.green.value,
           "blue": this.scope.state.colours.blue.value,
       };
-
-      return data;
   };
 
   getStateAndPerformRequest = () => {
