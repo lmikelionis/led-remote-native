@@ -11,14 +11,7 @@ import { createBottomTabNavigator, SafeAreaView } from 'react-navigation';
 export class App extends Component {
     render() {
         return(
-            <SafeAreaView>
-                <Text>
-                    This is top text.
-                </Text>
-                <Text>
-                    This is bottom text.
-                </Text>
-            </SafeAreaView>
+            <SafeAreaView />
         );
     }
 }
