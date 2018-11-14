@@ -4,10 +4,12 @@ import queryString from 'query-string';
 export const Http = class Http {
 
   performRequest = (url, data) => {
+      // console.log('data  ', data);
       let getString = this.dataToString(data);
-      let request_string = url + getString;
+      // console.log('getString  ', getString);
 
-      console.log(request_string);
+      let request_string = url + getString;
+      console.log('request_string  ', request_string);
 
       const httpClient = axios.create();
       httpClient.defaults.timeout = 2000;
@@ -38,21 +40,27 @@ export const Http = class Http {
   };
 
   getAllData() {
-      return {
+
+      let data = {
           "state": Number(this.scope.state.ledState),
           "mode": Number(this.scope.state.ledMode),
-          "ledMode": this.scope.state.ledMode,
+          "ledMode": this.scope.state.mode,
           "coldWhite": this.scope.state.colours.white.value,
           "warmWhite": this.scope.state.colours.yellow.value,
           "red": this.scope.state.colours.red.value,
           "green": this.scope.state.colours.green.value,
           "blue": this.scope.state.colours.blue.value,
       };
+
+      // console.log('getAllData', data);
+
+      return data;
   };
 
   getStateAndPerformRequest = () => {
       let data = this.getAllData();
-      this.performRequest(data);
+      // console.log('getStateAndPerformRequest', data);
+      this.performRequest('http://192.168.1.47:8080/?', data);
   };
 
   setCallback = (name, callback) => {

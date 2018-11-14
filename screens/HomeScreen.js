@@ -15,8 +15,9 @@ export default class HomeScreen extends Component {
         this.container.network = {};
 
         this.state = {
+            selectedIndex: 1,
             ledState: false,
-            ledMode: 0,
+            ledMode: 1,
             colours : {
                 white: {
                     value: 0,
@@ -56,7 +57,7 @@ export default class HomeScreen extends Component {
         this.container.network.setState(this);
 
         this.heartbeat();
-        this._interval = setInterval(this.heartbeat, 5000);
+        // this._interval = setInterval(this.heartbeat, 5000);
     };
 
     componentWillUnmount = () => {
@@ -68,7 +69,7 @@ export default class HomeScreen extends Component {
             "heartbeat": true,
         };
         this.container.network.performRequest('http://192.168.1.47:8080/?', data);
-        console.log('heartbeat');
+        // console.log('heartbeat');
     };
 
     handleError = (data) => {
@@ -88,7 +89,7 @@ export default class HomeScreen extends Component {
     };
 
     updateAll = (data) => {
-        console.log('will set vals: ', data);
+        console.log('will set vals: ', data.mode, data.ledMode);
 
         this.state.light_lvl = data.light_lvl;
 
@@ -100,7 +101,7 @@ export default class HomeScreen extends Component {
         this.setSlider('blue', parseInt(data.blue.value));
 
         this.setPowerState(!!data.ledState);
-        this.setState({ledMode: parseInt(data.ledMode)});
+        // this.setState({ledMode: parseInt(data.ledMode)});
     };
 
     updateMode = (value) => {
@@ -162,7 +163,6 @@ export default class HomeScreen extends Component {
             'MANUAL', 
             // 'TIMED',
         ];
-        const { selectedIndex } = this.state;
 
         return (
            <SafeAreaView style={{backgroundColor: 'powderblue', marginBottom: 50}}>
